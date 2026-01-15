@@ -4,6 +4,16 @@
 ![GitHub Releases](https://img.shields.io/github/downloads/pterodactyl/wings/latest/total)
 [![Go Report Card](https://goreportcard.com/badge/github.com/pterodactyl/wings)](https://goreportcard.com/report/github.com/pterodactyl/wings)
 
+# Dev note from table(READ ME):
+I used AI to vibecode this entire fork. This works for wings-1.21.1. I might continue to maintain this if people have issues and are willing to provide the logs. Or give the fix, and I can merge.
+
+
+Essentially you need:
+- Docker Windows, with the WSL2 subfeature enabled
+- A couple of places you want your data. look at example config.
+
+Just use as if you're using normal wings. You can create a service using nssm, but I wont get into that.
+
 # Pterodactyl Wings
 
 Wings is Pterodactyl's server control plane, built for the rapidly changing gaming industry and designed to be
