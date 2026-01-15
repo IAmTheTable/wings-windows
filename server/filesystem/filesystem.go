@@ -438,10 +438,14 @@ func (fs *Filesystem) ListDirectory(p string) ([]Stat, error) {
 		var m *mimetype.MIME
 		if e.Type().IsRegular() {
 			// TODO: I should probably find a better way to do this.
-			eO := e.(interface {
+			var f ufs.File
+			if eO, ok := e.(interface {
 				Open() (ufs.File, error)
-			})
-			f, err := eO.Open()
+			}); ok {
+				f, err = eO.Open()
+			} else {
+				f, err = fs.unixFS.Open(filepath.Join(p, e.Name()))
+			}
 			if err != nil {
 				return Stat{}, err
 			}

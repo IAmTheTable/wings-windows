@@ -55,3 +55,4 @@ pprof.*
 wings_config.yml
 wings.exe~
 wings.log
+.gitignore
