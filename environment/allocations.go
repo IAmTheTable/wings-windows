@@ -2,6 +2,7 @@ package environment
 
 import (
 	"fmt"
+	"runtime"
 	"strconv"
 
 	"github.com/docker/go-connections/nat"
@@ -66,6 +67,12 @@ func (a *Allocations) Bindings() nat.PortMap {
 // server to operate on a local address while still being accessible by other containers.
 func (a *Allocations) DockerBindings() nat.PortMap {
 	iface := config.Get().Docker.Network.Interface
+
+	// On Windows, you cannot bind to the bridge gateway IP address as it does not exist on the host.
+	// This will just use 0.0.0.0 if the interface is set to the bridge gateway.
+	if runtime.GOOS == "windows" && iface == "172.18.0.1" {
+		iface = "0.0.0.0"
+	}
 
 	out := a.Bindings()
 	// Loop over all the bindings for this container, and convert any that reference 127.0.0.1

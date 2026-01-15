@@ -193,7 +193,15 @@ func (e *Environment) Create() error {
 	if cfg.System.User.Rootless.Enabled {
 		conf.User = fmt.Sprintf("%d:%d", cfg.System.User.Rootless.ContainerUID, cfg.System.User.Rootless.ContainerGID)
 	} else {
-		conf.User = cfg.System.User.Uid + ":" + cfg.System.User.Gid
+		uid := cfg.System.User.Uid
+		gid := cfg.System.User.Gid
+		if strings.HasPrefix(uid, "S-1-") {
+			uid = "0"
+		}
+		if strings.HasPrefix(gid, "S-1-") {
+			gid = "0"
+		}
+		conf.User = uid + ":" + gid
 	}
 
 	networkMode := container.NetworkMode(cfg.Docker.Network.Mode)
